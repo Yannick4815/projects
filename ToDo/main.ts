@@ -103,8 +103,8 @@ function checkFor(_el: HTMLElement, _searchArray: string[]): boolean {
 
 async function connectToServer(_requestType: string): Promise<ResponseBody> {
 
-    //let url: string = "https://projects4815.herokuapp.com";
-    let url: string = "http://localhost:8100";
+    let url: string = "https://projects4815.herokuapp.com";
+    //let url: string = "http://localhost:8100";
     if (_requestType == "getAll") {
         url = url + "?requestType=getAll&owner=602d854bec305e9419d392e4";
     }
