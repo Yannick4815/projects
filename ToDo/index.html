@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script src="main.js" defer></script>
+    <title>ToDo</title>
+</head>
+<body>
+   <!--POP-UPs-->
+
+   <div id="editDiv" class="popUp">
+       <div class="popUpCont">
+           <h2>To-Do bearbeiten</h2><span id="closePopUp1">&times;</span>
+
+           <form action="" method="GET">
+            <label for="editDateValue">Datum (dd.mm.yy)</label>
+            <input id="editDateValue" name="editDateValue" type="text" >
+            <label for="editTextValue">Name</label>
+            <input id="editTextValue" name="editTextValue" type="text" >
+
+            <input id="editIdPlaceholder" type="hidden" name="editIdPlaceholder" value="">
+            
+            <input type="hidden" name="requestType" value="edit">
+            
+            <input id="submitEdit" type="button" value="Speichern">
+           </form>
+      
+
+      
+       </div>
+       
+   </div>
+
+   <!--POP-UPs-Ende-->
+
+    <div class="main">
+        <h1>To-Do-Liste</h1>
+        <i class="fas fa-times"></i>
+        <div id="statusContainer">
+            <div id="status"></div>
+        </div>
+       
+        <h2 id="statusText">70%</h2>
+
+        <h3>Neues To-Do</h3>
+        <form action="" method="GET">
+            <div id="dateDiv">
+                <label for="date">Datum</label>
+            <input id="date" type="text" name="date" placeholder="dd.mm.yy">
+            </div>
+            <div id="nameDiv">
+                <label for="name">Name</label>
+                <input id="name" type="text" name="name" placeholder="Name">
+            </div>
+
+            <span id="add" class="material-icons add">add</span>
+
+          
+            <input type="hidden" name="requestType" value="add">
+            <input type="hidden" name="owner" value="602d854bec305e9419d392e4">
+        </form>
+        <h3>Offen</h3>
+        <div class="list" id="list">
+            <!--<h4><span>12.05.21</span><span>Neues To-Do 1</span><span class="delete material-icons">clear</span><span class="check material-icons">done</span><span class="create material-icons">create</span></h4>
+            <h4><span>12.05.21</span>Neues To-Do 2 <span class="delete material-icons">clear</span><span class="check material-icons">done</span><span class="create material-icons">create</span></h4>
+            <h4><span>12.05.21</span>Neues To-Do 3 <span class="delete material-icons">clear</span><span class="check material-icons">done</span><span class="create material-icons">create</span></h4>
+            <h4><span>12.05.21</span>Neues To-Do 4 <span class="delete material-icons">clear</span><span class="check material-icons">done</span><span class="create material-icons">create</span></h4>
+            <h4><span>12.05.21</span>Neues To-Do 5 <span class="delete material-icons">clear</span><span class="check material-icons">done</span><span class="create material-icons">create</span></h4>
+            -->
+        </div>
+
+        <h3>Erledigt</h3>
+        <div class="list" id="listDone">
+            <!--<h4><span>12.05.21</span>Neues To-Do 1 <span class="delete material-icons">clear</span></h4>
+            <h4><span>12.05.21</span>Neues To-Do 1 <span class="delete material-icons">clear</span></h4>
+            <h4><span>12.05.21</span>Neues To-Do 1 <span class="delete material-icons">clear</span></h4>
+            <h4><span>12.05.21</span>Neues To-Do 1 <span class="delete material-icons">clear</span></h4>
+            -->
+        </div>
+    </div>
+   
+</body>
+</html>

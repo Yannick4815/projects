@@ -1,0 +1,29 @@
+{
+    "name": "projects",
+    "version": "1.0.0",
+    "description": "projects",
+    "main": "index.js",
+    "dependencies": {
+      "@types/mongodb": "^3.6.3",
+      "mongodb": "^3.6.3"
+    },
+    "devDependencies": {
+      "@types/node": "^14.14.20"
+    },
+    "scripts": {
+      "start": "node ToDo/server.js"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Yannick4815/projects.git"
+    },
+    "keywords": [
+      "gis"
+    ],
+    "author": "Yannick Reiche",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/Yannick4815/projects/issues"
+    },
+    "homepage": "https://github.com/Yannick4815/projects#readme"
+  }
