@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <script src="login.js" defer></script>
     <script src="shared.js"></script>
 
@@ -12,28 +12,32 @@
     <title>Login</title>
 </head>
 <body>
-    <div class="btnContainer">
-        <span id="registrieren"  class="active">Registrieren</span>
-        <span id="login" >Login</span>
-    </div>
-    <div class="formDiv">
-        
-        
-        
-        <form id="form" action="" method="GET">
-            <label id="nameLabel" for="vornameInput">Name</label>
-            <input id="vornameInput" type="text" name="vorname" placeholder="Name" required>
 
-            <label for="emailInput">E-Mail</label>
-            <input id="emailInput" type="email" name="email" placeholder="E-Mail" required>
-
-            <label for="passwordInput">Passwort</label>
-            <input id="passwordInput" type="password" name="pwd" placeholder="Passwort" required>
-
-            <input id="requestInput" type="hidden" name="requestType" value="register">
-            <button id="submit" type="button">Abschicken</button>
-        </form>
-        <h3 id="error"></h3>
-    </div>
+   
+        <div class="btnContainer">
+            <span id="registrieren"  class="active">Registrieren</span>
+            <span id="login" >Login</span>
+        </div>
+        <div class="formDiv">
+            
+            
+            
+            <form id="form" action="" method="GET">
+                <label id="nameLabel" for="vornameInput">Name</label>
+                <input id="vornameInput" type="text" name="vorname" placeholder="Name" required>
+    
+                <label for="emailInput">E-Mail</label>
+                <input id="emailInput" type="email" name="email" placeholder="E-Mail" required>
+    
+                <label for="passwordInput">Passwort</label>
+                <input id="passwordInput" type="password" name="pwd" placeholder="Passwort" required>
+    
+                <input id="requestInput" type="hidden" name="requestType" value="register">
+                <button id="submit" type="button">Abschicken</button>
+            </form>
+            <h3 id="error"></h3>
+        </div>
+  
+   
 </body>
 </html>

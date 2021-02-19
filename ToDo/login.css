@@ -1,16 +1,13 @@
-:root {
-    --divWidth: 400px;
-    --divPadding: 30px;
-}
+
 body{
     font-family: Arial, Helvetica, sans-serif;
     color: #333;
 }
 .formDiv {
 
-    width:var(--divWidth);
+    width:400px;
     margin: 0 auto;
-    padding:var(--divPadding);
+    padding:30px;
     border-radius:0  0 20px 20px;
     box-shadow: 6px 6px 10px 4px rgb(207, 207, 207);
 }
@@ -57,6 +54,7 @@ input {
     font-size: 20px;
     margin:0;
     outline: none;
+    border-radius: 0;
 }
 
 button{
@@ -83,3 +81,19 @@ button:hover{
     padding: 10px;
 }
 
+@media only screen and (max-width: 500px) {
+    .formDiv{
+        width:300px;
+    }
+    .btnContainer{
+        width: 360px;
+    }
+}
+@media only screen and (max-width: 380px) {
+    .formDiv{
+        width:240px;
+    }
+    .btnContainer{
+        width: 300px;
+    }
+}
