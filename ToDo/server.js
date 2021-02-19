@@ -54,18 +54,13 @@ var Klausur;
                 responseBody.status = "success";
                 responseBody.message = JSON.stringify(resArr);
             }
-            /*
             else if (qdata.requestType == "login" || qdata.requestType == "register") {
                 console.log("Reading");
-
                 result = user.find({ email: qdata.email });
-
-                let foundUser: Benutzer[] = await result.toArray();
-
-                let id: string;
-                let userExists: boolean;
-                let insert: boolean = false;
-
+                let foundUser = await result.toArray();
+                let id;
+                let userExists;
+                let insert = false;
                 if (foundUser.length > 0) {
                     userExists = true;
                     console.log("FOUND USER");
@@ -74,12 +69,11 @@ var Klausur;
                     userExists = false;
                     console.log("CANNOT FOUND USER");
                 }
-
                 if (qdata.requestType == "login") {
                     if (userExists) {
-                        if (qdata.pwd == foundUser[0].passwort) {
-                            id = foundUser[0]._id;
-                            insert = true;
+                        if (qdata.pwd == foundUser[0].pwd) {
+                            responseBody.message = JSON.stringify(foundUser[0]);
+                            responseBody.status = "success";
                         }
                         else {
                             responseBody.message = "Falsches Passwort";
@@ -91,32 +85,17 @@ var Klausur;
                 }
                 else {
                     if (!userExists) {
-
-                        let res: Mongo.InsertOneWriteOpResult<any> = await user.insertOne({ vorname: qdata.vorname, nachname: qdata.nachname, email: qdata.email, passwort: qdata.pwd });
-
-                        id = res.insertedId;
-
-                        insert = true;
+                        let res = await user.insertOne({ name: qdata.vorname, email: qdata.email, pwd: qdata.pwd });
+                        result = user.find({ email: qdata.email });
+                        let foundUser = await result.toArray();
+                        responseBody.message = JSON.stringify(foundUser[0]);
+                        responseBody.status = "success";
                     }
                     else {
                         responseBody.message = "E-Mail wird bereits verwendet!";
                     }
                 }
-
-                if (insert) {
-
-                    let itemArr: string[] = JSON.parse(String(qdata.items));
-                    console.log(itemArr);
-                    itemArr.forEach(element => {
-                        console.log("set" + element);
-                        findAndSetUser(element, id, items);
-
-                    });
-
-                    responseBody.status = "success";
-                    responseBody.message = "Vielen Dank für Ihre Reservierung";
-                }
-            }*/
+            }
             else if (qdata.requestType == "check") {
                 changeItemState(String(qdata.item), items);
             } /*

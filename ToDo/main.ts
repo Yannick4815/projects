@@ -1,8 +1,7 @@
 
 
 
-
-
+console.log(localStorage.owner);
 
 document.getElementById("closePopUp1").addEventListener("click", function (): void {
     toggleClass(document.getElementById("editDiv"), "display");
@@ -52,80 +51,9 @@ document.getElementById("add").addEventListener("click", async function (): Prom
 });
 
 
-function checkFor(_el: HTMLElement, _searchArray: string[]): boolean {
-    let pass: boolean = false;
-
-    let inputElement: HTMLInputElement = <HTMLInputElement>_el;
-    let inputAsArray: string[] = inputElement.value.split("");
-
-    if (_searchArray[0] == "contains") {
-
-        for (let i: number = 1; i < _searchArray.length; i++) {
-            if (!inputAsArray.includes(_searchArray[i])) {
-                pass = false;
-                break;
-            }
-            else {
-                pass = true;
-            }
-        }
-    }
-    else if (_searchArray[0] == "length") {
-        if (inputAsArray.length == Number(_searchArray[1])) {
-            pass = true;
-        }
-    }
-    else {
-        _searchArray.forEach(query => {
-            if (query == "") {
-                if (inputElement.value != "") {
-                    pass = true;
-                }
-            }
-            else {
-                for (let i: number = 0; i < inputAsArray.length; i++) {
-
-                    if (!_searchArray.includes(inputAsArray[i])) {
-                        pass = false;
-                        break;
-
-                    }
-                    else {
-                        pass = true;
-                    }
-                }
-            }
-        });
-    }
-    return pass;
-}
 
 
-async function connectToServer(_requestType: string): Promise<ResponseBody> {
 
-    let url: string = "https://projects4815.herokuapp.com";
-    //let url: string = "http://localhost:8100";
-    if (_requestType == "getAll") {
-        url = url + "?requestType=getAll&owner=602d854bec305e9419d392e4";
-    }
-    else if (_requestType == "insert") {
-        let formData: FormData = new FormData(document.forms[1]);
-        let query: URLSearchParams = new URLSearchParams(<any>formData);
-        url = url + "?" + query.toString();
-    }
-    else if (_requestType == "edit") {
-        let formData: FormData = new FormData(document.forms[0]);
-        let query: URLSearchParams = new URLSearchParams(<any>formData);
-        url = url + "?" + query.toString();
-    }
-    else {
-        url = url + "?" + _requestType;
-    }
-
-    let response: Response = await fetch(url);
-
-    return await response.json();
-}
 
 function fillSite(_items: Item[]): void {
     let relationArr: string[] = [];  /*["dateRe", "_id", "dateRe", "_id"]*/
@@ -146,11 +74,11 @@ function fillSite(_items: Item[]): void {
     dateArrSorted = dateArr.sort(function (a: number, b: number) { return a - b; });
     console.log(dateArr);
 
-    
+
     dateArrSorted.forEach(date => {
         let id: string = relationArr[relationArr.indexOf((String(date))) + 1];
         let item: Item;
-        
+
         console.log(id);
         console.log(relationArr.indexOf(String(date)));
         _items.forEach(el => {
@@ -219,10 +147,10 @@ function calc(): void {
     let statusBar: HTMLElement = document.getElementById("status");
     let statusText: HTMLElement = document.getElementById("statusText");
     let done: number = listDone.querySelectorAll("h4").length;
-    let pending: number = list.querySelectorAll("h4").length
+    let pending: number = list.querySelectorAll("h4").length;
     let donePercentage: number;
 
-    if ( done > 0 || pending > 0) {
+    if (done > 0 || pending > 0) {
         donePercentage = listDone.querySelectorAll("h4").length / (list.querySelectorAll("h4").length + listDone.querySelectorAll("h4").length) * 100;
     }
     else {
@@ -241,7 +169,7 @@ function calc(): void {
         h4.innerText = "-----";
         listDone.appendChild(h4);
     }
-    if(done == 0 && pending == 0) {
+    if (done == 0 && pending == 0) {
         statusText.innerHTML = "";
     }
     console.log(done);
@@ -251,9 +179,30 @@ async function getData(): Promise<Item[]> {
     let itemList: Item[] = JSON.parse(respJSON.message);
     return itemList;
 }
+let owner: User;
+let id: string;
 async function start(): Promise<void> {
-    fillSite(await getData());
 
+    
+    if (localStorage.owner == "undefined") {
+        window.location.href = "login.html";
+    }
+    else {
+        owner = JSON.parse(localStorage.owner);
+        id = owner._id;
+        let ownerInput: HTMLInputElement = <HTMLInputElement>document.getElementById("ownerInput");
+        ownerInput.value = id;
+        document.getElementById("welcome").innerText = "Hallo " + owner.name;
+        fillSite(await getData());
+    }
+    console.log(id);
+    
+
+    
+    document.getElementById("logout").addEventListener("click", function (): void {
+        localStorage.owner = undefined;
+        window.location.reload();
+    });
 
     document.querySelectorAll("span.delete").forEach(element => {
 

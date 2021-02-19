@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script src="main.js" defer></script>
+    <script src="shared.js"></script>
+
     <title>ToDo</title>
 </head>
 <body>
@@ -38,6 +40,12 @@
    <!--POP-UPs-Ende-->
 
     <div class="main">
+        <div id="header">
+            <h5 id="welcome"></h5>
+            <h5 id="logout">Abmelden</h5>
+        </div>
+        
+
         <h1>To-Do-Liste</h1>
         <i class="fas fa-times"></i>
         <div id="statusContainer">
@@ -61,7 +69,7 @@
 
           
             <input type="hidden" name="requestType" value="add">
-            <input type="hidden" name="owner" value="602d854bec305e9419d392e4">
+            <input id="ownerInput" type="hidden" name="owner" value="602d854bec305e9419d392e4">
         </form>
         <h3>Offen</h3>
         <div class="list" id="list">
