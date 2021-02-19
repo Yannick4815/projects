@@ -184,7 +184,7 @@ let id: string;
 async function start(): Promise<void> {
 
     
-    if (localStorage.owner == "undefined") {
+    if (localStorage.owner == "undefined" || localStorage.owner == undefined) {
         window.location.href = "login.html";
     }
     else {

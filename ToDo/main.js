@@ -141,7 +141,7 @@ async function getData() {
 let owner;
 let id;
 async function start() {
-    if (localStorage.owner == "undefined") {
+    if (localStorage.owner == "undefined" || localStorage.owner == undefined) {
         window.location.href = "login.html";
     }
     else {
