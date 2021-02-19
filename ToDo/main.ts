@@ -135,6 +135,8 @@ function fillSite(_items: Item[]): void {
         else {
 
         }
+        relationArr.splice(relationArr.indexOf((String(date))) + 1, 1);
+        relationArr.splice(relationArr.indexOf((String(date))), 1);
 
     });
 

@@ -99,6 +99,8 @@ function fillSite(_items) {
         }
         else {
         }
+        relationArr.splice(relationArr.indexOf((String(date))) + 1, 1);
+        relationArr.splice(relationArr.indexOf((String(date))), 1);
     });
     calc();
 }
