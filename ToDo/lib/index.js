@@ -28,13 +28,16 @@
                 })),
                 a.addEventListener("mouseleave", (() => { i !== a && (a.style.backgroundColor = "") })),
                 a.addEventListener("click", (e => {
+                    let div = document.getElementById("calDiv");
                     var t; null !== i && Object.assign(i.style, { backgroundColor: "", color: "" }),
                         Object.assign(a.style, { backgroundColor: "teal", color: "#FFF" }),
                         i = a,
                         t = e.target.date,
                         //n.value=`${t.getDate()}.${t.getMonth()+1}.${String(t.getFullYear()).slice(2,4)}`})),
                         n.value = `${t.getDate().toString().padStart(2, "0")}.${(t.getMonth() + 1).toString().padStart(2, "0")}.${String(t.getFullYear()).slice(2, 4)}`,
-                        document.getElementById("formDateInput").value = n.value
+                        document.getElementById("formDateInput").value = n.value,
+                        document.getElementById("calendar1").shadowRoot.querySelector("div").style.display = "none",
+                        document.getElementById("calendar2").shadowRoot.querySelector("div").style.display = "none"
                 })),
                 //
                 e.appendChild(a)
@@ -89,6 +92,7 @@
                             Object.assign(o.style, { width: "280px", display: "flex", flexWrap: "wrap" }),
                             Object.assign(i.style, { width: "280px", display: "flex", flexWrap: "wrap" }),
                             Object.assign(t.style, { width: "280px", display: "none", padding: "20px", fontFamily: 'Calibri, "Trebuchet MS", Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif', boxShadow: "1px 3px 10px rgba(0, 0, 0, 0.2)", position: "absolute", zIndex: "3", backgroundColor: "white" }),
+                            t.setAttribute("id", "calDiv"),
                             t.addEventListener("click", (e => e.stopPropagation())),
                             t.appendChild(n), t.appendChild(i),
                             t.appendChild(o), e.appendChild(t),
