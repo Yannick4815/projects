@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/CalendarPicker.style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script src="main.js" defer></script>
     <script src="shared.js"></script>
+    <script src="lib/index.js"></script>
 
     <title>ToDo</title>
 </head>
@@ -19,8 +21,11 @@
            <h2>To-Do bearbeiten</h2><span id="closePopUp1">&times;</span>
 
            <form action="" method="GET">
+
             <label for="editDateValue">Datum (dd.mm.yy)</label>
-            <input id="editDateValue" name="editDateValue" type="text" >
+            <carbox-picker id="calendar2"></carbox-picker>
+            <input id="editDateValue" name="editDateValue" type="hidden" >
+
             <label for="editTextValue">Name</label>
             <input id="editTextValue" name="editTextValue" type="text" >
 
@@ -37,6 +42,27 @@
        
    </div>
 
+   <div id="addTabDiv" class="popUp">
+    <div class="popUpCont">
+        <h2>Neue Liste</h2><span id="closePopUp2">&times;</span>
+
+        <form action="" method="GET">
+        
+         <label for="addTabName">Name</label>
+         <input id="addTabName" name="addTabName" type="text" >
+         
+         <input id="addListOwner" type="hidden" name="owner" >
+         <input type="hidden" name="requestType" value="addListe">
+         
+         <input id="submitListe" type="button" value="Hinzufügen">
+        </form>
+   
+
+   
+    </div>
+    
+</div>
+
    <!--POP-UPs-Ende-->
 
     <div class="main">
@@ -45,8 +71,14 @@
             <h5 id="logout">Abmelden</h5>
         </div>
         
-
         <h1>To-Do-Liste</h1>
+
+
+        <div id="projects">
+        </div>
+        
+
+       
         <i class="fas fa-times"></i>
         <div id="statusContainer">
             <div id="status"></div>
@@ -57,8 +89,10 @@
         <h3>Neues To-Do</h3>
         <form action="" method="GET">
             <div id="dateDiv">
+                
                 <label for="date">Datum</label>
-            <input id="date" type="text" name="date" placeholder="dd.mm.yy">
+                <carbox-picker id="calendar1"></carbox-picker>
+                <input id="formDateInput" type="hidden" name="date" placeholder="dd.mm.yy">
             </div>
             <div id="nameDiv">
                 <label for="name">Name</label>
@@ -67,7 +101,7 @@
 
             <span id="add" class="material-icons add">add</span>
 
-          
+            <input id="listeInput" type="hidden" name="liste" >
             <input type="hidden" name="requestType" value="add">
             <input id="ownerInput" type="hidden" name="owner" value="602d854bec305e9419d392e4">
         </form>

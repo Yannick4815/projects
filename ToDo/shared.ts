@@ -3,10 +3,16 @@ async function connectToServer(_requestType: string): Promise<ResponseBody> {
     let url: string = "https://projects4815.herokuapp.com";
     //let url: string = "http://localhost:8100";
     if (_requestType == "getAll") {
-        url = url + "?requestType=getAll&owner=" + id;
+        let liste: HTMLInputElement = <HTMLInputElement>document.getElementById("listeInput");
+        url = url + "?requestType=getAll&owner=" + id + "&list=" + liste.value;
+    }
+    else if (_requestType == "addListe") {
+        let formData: FormData = new FormData(document.forms[1]);
+        let query: URLSearchParams = new URLSearchParams(<any>formData);
+        url = url + "?" + query.toString();
     }
     else if (_requestType == "insert") {
-        let formData: FormData = new FormData(document.forms[1]);
+        let formData: FormData = new FormData(document.forms[2]);
         let query: URLSearchParams = new URLSearchParams(<any>formData);
         url = url + "?" + query.toString();
     }

@@ -7,6 +7,7 @@ export namespace Klausur {
 
     let items: Mongo.Collection;
     let user: Mongo.Collection;
+    let lists: Mongo.Collection;
 
     main();
 
@@ -19,6 +20,7 @@ export namespace Klausur {
 
         items = await connectDB("Items");
         user = await connectDB("User");
+        lists = await connectDB("Lists");
 
         let server: Http.Server = Http.createServer();
         server.addListener("request", handleRequest);
@@ -64,13 +66,13 @@ export namespace Klausur {
             let responseBody: ResponseBody = { status: "error", message: "" };
 
             if (qdata.requestType == "getAll") {
-                result = items.find({ owner: new Mongo.ObjectId(String(qdata.owner)) });
+                result = items.find({ owner: new Mongo.ObjectId(String(qdata.owner)), projekt: new Mongo.ObjectId(String(qdata.list))});
                 resArr = await result.toArray();
                 console.log("Owner: " + qdata.owner);
                 responseBody.status = "success";
                 responseBody.message = JSON.stringify(resArr);
             }
-            
+
             else if (qdata.requestType == "login" || qdata.requestType == "register") {
                 console.log("Reading");
 
@@ -78,9 +80,9 @@ export namespace Klausur {
 
                 let foundUser: User[] = await result.toArray();
 
-                let id: string;
+
                 let userExists: boolean;
-                let insert: boolean = false;
+
 
                 if (foundUser.length > 0) {
                     userExists = true;
@@ -96,7 +98,7 @@ export namespace Klausur {
                         if (qdata.pwd == foundUser[0].pwd) {
                             responseBody.message = JSON.stringify(foundUser[0]);
                             responseBody.status = "success";
-                            
+
                         }
                         else {
                             responseBody.message = "Falsches Passwort";
@@ -110,7 +112,7 @@ export namespace Klausur {
                     if (!userExists) {
 
                         let res: Mongo.InsertOneWriteOpResult<any> = await user.insertOne({ name: qdata.vorname, email: qdata.email, pwd: qdata.pwd });
-                        
+
                         result = user.find({ email: qdata.email });
                         let foundUser: User[] = await result.toArray();
                         responseBody.message = JSON.stringify(foundUser[0]);
@@ -123,34 +125,47 @@ export namespace Klausur {
             }
             else if (qdata.requestType == "check") {
                 changeItemState(String(qdata.item), items);
-            }/*
-            else if (qdata.requestType == "findUser") {
-                result = user.find({ _id: new Mongo.ObjectId(String(qdata.user)) });
-                let foundUser: Benutzer[] = await result.toArray();
-                if (JSON.stringify(foundUser) != "[]") {
-                    responseBody.message = foundUser[0].vorname + " " + foundUser[0].nachname;
+            }
+            else if (qdata.requestType == "getListName") {
+                result = lists.find({ _id: new Mongo.ObjectId(String(qdata.id)) });
+                let foundList: List[] = await result.toArray();
+                if (JSON.stringify(foundList) != "[]") {
+                    responseBody.message = foundList[0].name;
                     responseBody.status = "success";
                 }
                 else {
-                    console.log("cant find user " + qdata.user);
+                    console.log("cant find List " + qdata.id);
                 }
 
 
-            }*/
+            }
+
             else if (qdata.requestType == "add") {
                 items.insertOne({
                     owner: new Mongo.ObjectId(String(qdata.owner)),
                     name: qdata.name,
                     date: qdata.date,
                     status: 1,
-                    projekt: 1
+                    projekt: new Mongo.ObjectId(String(qdata.liste))
                 });
                 responseBody.status = "success";
             }
+
+            else if (qdata.requestType == "addListe") {
+                let res: Mongo.InsertOneWriteOpResult<any> = await lists.insertOne({
+                    name: qdata.addTabName,
+                    owner: new Mongo.ObjectId(String(qdata.owner))
+                });
+                responseBody.message = res.insertedId;
+                console.log(res.insertedId);
+                responseBody.status = "success";
+            }
+
             else if (qdata.requestType == "edit") {
                 editItem(String(qdata.editIdPlaceholder), String(qdata.editDateValue), String(qdata.editTextValue), items);
                 responseBody.status = "success";
             }
+
             else if (qdata.requestType == "delete") {
                 console.log("delete " + qdata.item);
                 result = items.find({ _id: new Mongo.ObjectId(String(qdata.item)) });
@@ -166,16 +181,49 @@ export namespace Klausur {
                 }
 
 
-            }/*
+            }
+            else if (qdata.requestType == "deleteList") {
+                console.log("delete " + qdata.list);
+                result = lists.find({ _id: new Mongo.ObjectId(String(qdata.list)) });
+                let foundItem: Item[] = await result.toArray();
+                if (foundItem.length > 0) {
+                    lists.deleteOne({ _id: new Mongo.ObjectId(String(foundItem[0]._id)) });
+                    responseBody.message = "success";
+                    responseBody.message = "Löschen erfolgreich";
+                }
+                else {
+                    responseBody.message = "Element nicht gefunden";
+                    console.log("can't find item");
+                }
+
+                //Items löschen
+                result = items.find({ projekt: new Mongo.ObjectId(String(qdata.list)) });
+                foundItem = await result.toArray();
+
+                foundItem.forEach(item => {
+                    console.log("Lösche " + item.name);
+                    items.deleteOne({ _id: new Mongo.ObjectId(String(item._id)) });
+                    
+                });
+
+
+            }
+            else if (qdata.requestType == "getAllLists") {
+                result = lists.find({ owner: new Mongo.ObjectId(String(qdata.owner)) }).sort( { age: -1 } );
+                let foundLists: Item[] = await result.toArray();
+                responseBody.message = JSON.stringify(foundLists);
+                responseBody.status = "success";
+            }
+            /*
             else if (qdata.requestType == "loginIndex") {
                 result = user.find({ email: qdata.email });
-
+    
                 let foundUser: Benutzer[] = await result.toArray();
-
+    
                 let id: string;
                 let userExists: boolean;
-
-
+    
+    
                 if (foundUser.length > 0) {
                     userExists = true;
                     console.log("FOUND USER");
@@ -184,8 +232,8 @@ export namespace Klausur {
                     userExists = false;
                     console.log("CANNOT FOUND USER");
                 }
-
-
+    
+    
                 if (userExists) {
                     if (qdata.pwd == foundUser[0].passwort) {
                         id = foundUser[0]._id;
@@ -199,10 +247,10 @@ export namespace Klausur {
                 else {
                     responseBody.message = "Kein Konto mit dieser E-Mail gefunden";
                 }
-
+    
             }
             else if (qdata.requestType == "getUserInfo") {
-
+    
                 try {
                     result = user.find({ _id: new Mongo.ObjectId(String(qdata.user)) });
                     let foundUser: Benutzer[] = await result.toArray();
@@ -217,8 +265,8 @@ export namespace Klausur {
                 } catch (error) {
                     console.log("CACTHED: Benutzer nicht gefunden");
                 }
-
-
+    
+    
             }
             else if (qdata.requestType == "getAllUserItems") {
                 try {

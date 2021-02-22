@@ -3,10 +3,16 @@ async function connectToServer(_requestType) {
     let url = "https://projects4815.herokuapp.com";
     //let url: string = "http://localhost:8100";
     if (_requestType == "getAll") {
-        url = url + "?requestType=getAll&owner=" + id;
+        let liste = document.getElementById("listeInput");
+        url = url + "?requestType=getAll&owner=" + id + "&list=" + liste.value;
+    }
+    else if (_requestType == "addListe") {
+        let formData = new FormData(document.forms[1]);
+        let query = new URLSearchParams(formData);
+        url = url + "?" + query.toString();
     }
     else if (_requestType == "insert") {
-        let formData = new FormData(document.forms[1]);
+        let formData = new FormData(document.forms[2]);
         let query = new URLSearchParams(formData);
         url = url + "?" + query.toString();
     }
